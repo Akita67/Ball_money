@@ -22,10 +22,17 @@ class Bucket:
     def draw(self, surface):
         rect = pygame.Rect(self.x, self.y, BUCKET_WIDTH, BUCKET_HEIGHT)
         pygame.draw.rect(surface, BUCKET_COLOR, rect)
-        wall_l = pygame.Rect(self.x, self.y - 20, BUCKET_HEIGHT, BUCKET_WIDTH/2)
+        wall_l = pygame.Rect(self.x, self.y - 30, BUCKET_HEIGHT, BUCKET_WIDTH/2)
         pygame.draw.rect(surface, BUCKET_COLOR, wall_l)
-        wall_r = pygame.Rect(self.x + 40, self.y - 20, BUCKET_HEIGHT, BUCKET_WIDTH / 2)
+        wall_r = pygame.Rect(self.x + 60, self.y - 30, BUCKET_HEIGHT, BUCKET_WIDTH / 2)
         pygame.draw.rect(surface, BUCKET_COLOR, wall_r)
+
+        # Draw the text "X100" above the bucket
+        font = pygame.font.SysFont("Orbitron", 24)
+        text_surface = font.render("X100", True, (255, 255, 255))  # white color
+        text_rect = text_surface.get_rect(center=(self.x + BUCKET_WIDTH / 2, self.y - 30))
+        surface.blit(text_surface, text_rect)
+
 
     def get_rect(self):
         return pygame.Rect(self.x, self.y, BUCKET_WIDTH, BUCKET_HEIGHT)

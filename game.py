@@ -49,7 +49,7 @@ class Game:
                 # Catch with bucket
                 if ball.get_rect().colliderect(self.bucket.get_rect()):
                     self.balls.remove(ball)
-                    self.score += 1
+                    self.score += 150
 
                 # Remove if off screen
                 elif ball.off_screen(SCREEN_HEIGHT):
@@ -64,8 +64,9 @@ class Game:
             if event.type == pygame.QUIT:
                 self.running = False
             elif event.type == self.SPAWN_EVENT:
-                self.spawn_ball()
-                self.score -= 10
+                if(self.score > 9):
+                    self.spawn_ball()
+                    self.score -= 1.5
 
     def draw(self):
         self.screen.fill((30, 30, 30))  # background color
