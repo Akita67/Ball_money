@@ -22,9 +22,9 @@ class Bucket:
     def draw(self, surface):
         rect = pygame.Rect(self.x, self.y, BUCKET_WIDTH, BUCKET_HEIGHT)
         pygame.draw.rect(surface, BUCKET_COLOR, rect)
-        wall_l = pygame.Rect(self.x, self.y - 30, BUCKET_HEIGHT, BUCKET_WIDTH/2)
+        wall_l = pygame.Rect(self.x, self.y - 13, BUCKET_HEIGHT, BUCKET_WIDTH/2)
         pygame.draw.rect(surface, BUCKET_COLOR, wall_l)
-        wall_r = pygame.Rect(self.x + 60, self.y - 30, BUCKET_HEIGHT, BUCKET_WIDTH / 2)
+        wall_r = pygame.Rect(self.x + 30, self.y - 13, BUCKET_HEIGHT, BUCKET_WIDTH / 2)
         pygame.draw.rect(surface, BUCKET_COLOR, wall_r)
 
         # Draw the text "X100" above the bucket

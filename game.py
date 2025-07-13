@@ -6,6 +6,8 @@ from settings import SCREEN_WIDTH, BALL_RADIUS, SCREEN_HEIGHT, SPAWN_INTERVAL, F
 from ball import Ball
 from bucket import Bucket
 from obstacles import Obstacles
+from info_panel import InfoPanel
+
 
 
 class Game:
@@ -24,7 +26,9 @@ class Game:
         pygame.time.set_timer(self.SPAWN_EVENT, SPAWN_INTERVAL)
 
         self.running = True
-        self.score = 100
+        self.score = 20
+
+        self.info_panel = InfoPanel()
 
     def spawn_ball(self):
         x = SCREEN_WIDTH / 2
@@ -60,13 +64,14 @@ class Game:
         pygame.quit()
 
     def handle_events(self):
+        temp = 2.5
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
             elif event.type == self.SPAWN_EVENT:
-                if(self.score > 9):
+                if(self.score >= temp):
                     self.spawn_ball()
-                    self.score -= 1.5
+                    self.score -= temp
 
     def draw(self):
         self.screen.fill((30, 30, 30))  # background color
@@ -79,5 +84,15 @@ class Game:
         font = pygame.font.SysFont(None, 36)
         text = font.render(f"Dollars: {self.score}", True, (255, 255, 255))
         self.screen.blit(text, (10, 10))
+
+        # Update text dynamically (example)
+        self.info_panel.update_info([
+            f"Score: {self.score}",
+            f"Balls: {len(self.balls)}",
+            f"Time: {pygame.time.get_ticks() // 1000}s"
+        ])
+
+        # Draw it after the main screen
+        self.info_panel.draw(self.screen)
 
         pygame.display.flip()
