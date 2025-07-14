@@ -1,7 +1,7 @@
 # settings.py
 # Window dimensions
 SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
+SCREEN_HEIGHT = 608
 
 # Ball settings
 BALL_RADIUS = 10
