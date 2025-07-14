@@ -1,13 +1,13 @@
 # settings.py
 # Window dimensions
 SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 608
+SCREEN_HEIGHT = 600
 
 # Ball settings
 BALL_RADIUS = 10
 BALL_COLOR = (220, 30, 30)
 GRAVITY = 0.1
-SPAWN_INTERVAL = 1500  # milliseconds
+SPAWN_INTERVAL = 150  # milliseconds
 BALL_INIT_VX_MIN = -2.0
 BALL_INIT_VX_MAX =  2.0
 COLOR_RANDOM = True

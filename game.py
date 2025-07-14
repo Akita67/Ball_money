@@ -1,7 +1,7 @@
 import time
-
 import pygame
 import sys
+import random
 
 # Import settings and game components from other files
 from settings import SCREEN_WIDTH, SCREEN_HEIGHT, BALL_RADIUS, SPAWN_INTERVAL, FPS
@@ -10,6 +10,8 @@ from bucket import Bucket
 from obstacles import Obstacles
 from info_panel import InfoPanel
 from screenrecorder import ScreenRecorder
+# --- NEW: Import the effect classes from effects.py ---
+from effects import Particle, FloatingText
 
 
 class Game:
@@ -30,21 +32,23 @@ class Game:
         self.balls = []
         self.obstacles = Obstacles()
         self.info_panel = InfoPanel()
-        self.score = 2.5  # Start with some score for testing
+        self.score = 1000  # Start with some score for testing
         self.running = True
+
+        # --- NEW: Lists to hold active visual effects ---
+        self.particles = []
+        self.floating_texts = []
+        self.score_font = pygame.font.SysFont("Impact", 30)
+
 
         # Timer for spawning new balls
         self.SPAWN_EVENT = pygame.USEREVENT + 1
         pygame.time.set_timer(self.SPAWN_EVENT, SPAWN_INTERVAL)
 
         # Initialize the screen recorder
-        # Use 'nvenc' for NVIDIA GPUs (recommended) or 'cpu' as a fallback.
         self.recorder = ScreenRecorder(
-            SCREEN_WIDTH, SCREEN_HEIGHT, FPS, self.window_title,
-            output_file="game_recording.mp4",
-            encoder="nvenc"
+            SCREEN_WIDTH, SCREEN_HEIGHT, FPS, self.window_title
         )
-        # A small delay to ensure the window is fully rendered before recording starts
         pygame.time.delay(500)
         self.recorder.start()
 
@@ -53,6 +57,17 @@ class Game:
         x = SCREEN_WIDTH / 2
         y = BALL_RADIUS
         self.balls.append(Ball(x, y))
+
+    # --- NEW: Method to create all score effects at once ---
+    def trigger_score_effect(self, x, y):
+        """Creates particles and floating text when a ball is scored."""
+        # Create a burst of 20-30 particles
+        for _ in range(random.randint(20, 30)):
+            self.particles.append(Particle(x, y))
+        # Create the floating "+250" text
+        self.floating_texts.append(FloatingText(x, y, "+250", self.score_font))
+        # You could also add a sound effect here, e.g.:
+        # self.score_sound.play()
 
     def handle_events(self):
         """Processes all pygame events, such as quitting or timers."""
@@ -70,62 +85,68 @@ class Game:
         walls = self.bucket.get_wall_rects()
         self.obstacles.update_bucket_walls(walls)
 
-        # Iterate over a copy of the list to safely remove items
         for ball in list(self.balls):
-            ball.update()  # Note: Your original ball.py doesn't use dt, but it's good practice
-
-            # Check for collisions with obstacles
+            ball.update()
             if self.obstacles.check_collision(ball):
-                continue  # Collision handled in the method
+                continue
 
-            # Check for collision with the bucket (scoring)
+            # --- UPDATED: Collision with bucket now triggers the effect ---
             if ball.get_rect().colliderect(self.bucket.get_rect()):
+                self.trigger_score_effect(ball.x, ball.y) # Trigger effect at ball's location
                 self.balls.remove(ball)
                 self.score += 250
-            # Check if the ball has gone off-screen
             elif ball.off_screen(SCREEN_HEIGHT):
                 self.balls.remove(ball)
 
+        # --- NEW: Update all active particles and floating texts ---
+        for particle in list(self.particles):
+            particle.update()
+            if particle.lifespan <= 0:
+                self.particles.remove(particle)
+
+        for text in list(self.floating_texts):
+            text.update()
+            if text.lifespan <= 0:
+                self.floating_texts.remove(text)
+
+
     def draw(self):
         """Draws all game objects to the screen."""
-        self.screen.fill((30, 30, 30))  # Dark grey background
+        self.screen.fill((30, 30, 30))
 
-        # Draw game elements
         self.obstacles.draw(self.screen)
         self.bucket.draw(self.screen)
         for ball in self.balls:
             ball.draw(self.screen)
 
-        # Update and draw the info panel
+        # --- NEW: Draw all the visual effects ---
+        for particle in self.particles:
+            particle.draw(self.screen)
+        for text in self.floating_texts:
+            text.draw(self.screen)
+
         self.info_panel.update_info([
             f"Balance: {self.score:.1f}",
             f"Balls: {len(self.balls)}",
             f"Time: {pygame.time.get_ticks() // 1000}s",
             f"Ball Cost: {2.5}$",
-            f"Multiplier: {"X"}100"
-
-            #f"FPS: {self.clock.get_fps():.1f}",
-            #f"Encoder: {self.recorder.encoder.upper()}"
+            f"Multiplier: X100"
         ])
         self.info_panel.draw(self.screen)
 
-        # Update the full display
         pygame.display.flip()
 
     def run(self):
         """The main game loop."""
         try:
             while self.running:
-                # dt is the time in milliseconds since the last frame
                 dt = self.clock.tick(FPS)
                 self.handle_events()
                 self.update(dt)
                 self.draw()
-                # End condition
-                if self.score <= 0 and not self.balls:
+                if (self.score <= 0 and not self.balls):
                     self.running = False
         finally:
-            # Ensure everything shuts down cleanly
             time.sleep(1)
             self.recorder.stop()
             pygame.quit()

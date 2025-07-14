@@ -54,6 +54,7 @@ class Obstacles:
                     "rect": rect,
                     "glow_until": 0  # timestamp in ms
                 })
+        #self.obstacles = []
 
     def draw(self, surface):
         now = pygame.time.get_ticks()
@@ -96,7 +97,7 @@ class Obstacles:
             rect = obs["rect"]
             if ball_rect.colliderect(rect):
                 # invert vertical velocity
-                ball.vy = -ball.vy / 1.1
+                ball.vy = -ball.vy / 1.2
                 # push ball horizontally away from obstacle center
                 obstacle_cx = rect.x + OBSTACLE_RADIUS
 

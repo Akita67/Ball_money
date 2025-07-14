@@ -1,4 +1,5 @@
 import subprocess
+import datetime
 
 class ScreenRecorder:
     """
@@ -6,12 +7,15 @@ class ScreenRecorder:
     This is optimized for real-time capture by using hardware encoding (NVENC)
     with a fallback to efficient CPU encoding (libx264).
     """
-    def __init__(self, width, height, fps, window_title, output_file="recording.mp4", encoder="nvenc"):
+    def __init__(self, width, height, fps, window_title, output_file=None, encoder="nvenc"):
         self.width = width
         self.height = height
         self.fps = fps
         self.window_title = window_title
-        self.output_file = output_file
+
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        self.output_file = f"records/recording_{timestamp}.mp4"
+
         self.encoder = encoder.lower()
         self.recorder_process = None
 
@@ -31,6 +35,8 @@ class ScreenRecorder:
             # Video Input: gdigrab for window capture
             "-f", "gdigrab",
             "-framerate", str(self.fps),
+            # --- FIX: Explicitly set the video size to match the window ---
+            "-video_size", f"{self.width}x{self.height}",
             "-thread_queue_size", "1024",
             "-i", f"title={self.window_title}",
 
@@ -66,6 +72,8 @@ class ScreenRecorder:
             # Video and Audio Inputs (same as NVENC)
             "-f", "gdigrab",
             "-framerate", str(self.fps),
+            # --- FIX: Explicitly set the video size to match the window ---
+            "-video_size", f"{self.width}x{self.height}",
             "-thread_queue_size", "1024",
             "-i", f"title={self.window_title}",
             "-f", "dshow",

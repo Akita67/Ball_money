@@ -46,4 +46,3 @@ class Bucket:
         wall_r = pygame.Rect(self.x + BUCKET_WIDTH - BUCKET_HEIGHT, self.y - 18, BUCKET_HEIGHT, BUCKET_WIDTH / 2)
         return [wall_l, wall_r]
 
-
