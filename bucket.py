@@ -12,8 +12,8 @@ class Bucket:
         self.x += BUCKET_SPEED * self.direction
 
         # Bounce off edges
-        if self.x <= 0:
-            self.x = 0
+        if self.x <= 120:
+            self.x = 120
             self.direction = 1
         elif self.x >= SCREEN_WIDTH - BUCKET_WIDTH:
             self.x = SCREEN_WIDTH - BUCKET_WIDTH
@@ -27,6 +27,10 @@ class Bucket:
         wall_r = pygame.Rect(self.x + 30, self.y - 13, BUCKET_HEIGHT, BUCKET_WIDTH / 2)
         pygame.draw.rect(surface, BUCKET_COLOR, wall_r)
 
+        # 🔍 Draw outline of collision rectangle from get_rect()
+        debug_rect = self.get_rect()
+        pygame.draw.rect(surface, (255, 0, 0), debug_rect, 2)  # red border with thickness 2
+
         # Draw the text "X100" above the bucket
         font = pygame.font.SysFont("Orbitron", 24)
         text_surface = font.render("X100", True, (255, 255, 255))  # white color
@@ -35,4 +39,11 @@ class Bucket:
 
 
     def get_rect(self):
-        return pygame.Rect(self.x, self.y, BUCKET_WIDTH, BUCKET_HEIGHT)
+        return pygame.Rect(self.x+7, self.y-2, BUCKET_WIDTH/2, BUCKET_HEIGHT)
+
+    def get_wall_rects(self):
+        wall_l = pygame.Rect(self.x-4, self.y - 18, BUCKET_HEIGHT, BUCKET_WIDTH / 2)
+        wall_r = pygame.Rect(self.x + BUCKET_WIDTH - BUCKET_HEIGHT, self.y - 18, BUCKET_HEIGHT, BUCKET_WIDTH / 2)
+        return [wall_l, wall_r]
+
+

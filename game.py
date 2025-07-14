@@ -37,10 +37,14 @@ class Game:
 
     def run(self):
         while self.running:
+
             dt = self.clock.tick(FPS)
             self.handle_events()
 
             self.bucket.update()
+
+            bucket_wall_rects = self.bucket.get_wall_rects()
+            self.obstacles.update_bucket_walls(bucket_wall_rects)
 
             # Update balls
             for ball in list(self.balls):
@@ -53,7 +57,7 @@ class Game:
                 # Catch with bucket
                 if ball.get_rect().colliderect(self.bucket.get_rect()):
                     self.balls.remove(ball)
-                    self.score += 150
+                    self.score += 250
 
                 # Remove if off screen
                 elif ball.off_screen(SCREEN_HEIGHT):
@@ -81,15 +85,17 @@ class Game:
             ball.draw(self.screen)
 
         # Draw score
-        font = pygame.font.SysFont(None, 36)
-        text = font.render(f"Dollars: {self.score}", True, (255, 255, 255))
-        self.screen.blit(text, (10, 10))
+        # font = pygame.font.SysFont(None, 36)
+        # text = font.render(f"Dollars: {self.score}", True, (255, 255, 255))
+        # self.screen.blit(text, (10, 10))
 
         # Update text dynamically (example)
         self.info_panel.update_info([
-            f"Score: {self.score}",
+            f"Balance: {self.score}",
             f"Balls: {len(self.balls)}",
-            f"Time: {pygame.time.get_ticks() // 1000}s"
+            f"Time: {pygame.time.get_ticks() // 1000}s",
+            f"Balls: {2.5}$",
+            f"Multiplier: {100}",
         ])
 
         # Draw it after the main screen

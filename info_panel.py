@@ -10,7 +10,7 @@ from settings import (
 class InfoPanel:
     def __init__(self):
         self.width = INFO_PANEL_WIDTH
-        self.x = SCREEN_WIDTH - self.width
+        self.x = 0
         self.y = 0
         self.height = SCREEN_HEIGHT
         self.font = pygame.font.SysFont(None, INFO_FONT_SIZE)

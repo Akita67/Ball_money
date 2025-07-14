@@ -2,6 +2,7 @@
 
 import pygame
 import random
+import os
 import time
 
 from settings import (
@@ -14,6 +15,18 @@ from settings import (
 
 GLOW_DURATION = 150  # milliseconds
 GLOW_COLOR = (255, 255, 255)  # white halo
+
+NOTE_FOLDER = "notes"
+
+pygame.init()
+pygame.mixer.init()
+# Load all note sounds into a list
+note_sounds = []
+for filename in os.listdir(NOTE_FOLDER):
+    if filename.endswith(".wav") or filename.endswith(".ogg"):
+        sound = pygame.mixer.Sound(os.path.join(NOTE_FOLDER, filename))
+        sound.set_volume(0.3)
+        note_sounds.append(sound)
 
 class Obstacles:
     def __init__(self):
@@ -95,5 +108,21 @@ class Obstacles:
                 # Activate glow for GLOW_DURATION
                 obs["glow_until"] = pygame.time.get_ticks() + GLOW_DURATION
 
+                # Play a random musical note
+                if note_sounds:
+                    random.choice(note_sounds).play()
+
                 return True
         return False
+
+    def update_bucket_walls(self, wall_rects):
+        # Remove old bucket walls (tagged via 'source' field or count, if needed)
+        self.obstacles = [obs for obs in self.obstacles if obs.get("source") != "bucket_wall"]
+
+        # Add new ones
+        for rect in wall_rects:
+            self.obstacles.append({
+                "rect": rect,
+                "glow_until": 0,
+                "source": "bucket_wall"
+            })
