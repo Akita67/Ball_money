@@ -135,7 +135,7 @@ class Game:
             "",
             f"TIME: {pygame.time.get_ticks() // 1000}s",
             "",
-            f"COST: {2.5}$",
+            f"COST: {2.8}$",
             "",
             f"MULTI: 100"
         ])
@@ -151,7 +151,8 @@ class Game:
                 self.handle_events()
                 self.update(dt)
                 self.draw()
-                if (self.score <= 0 and not self.balls):
+                # Stop if score is too low OR if time is up
+                if (self.score <= 0 and not self.balls) or (pygame.time.get_ticks() // 1000 > 61):
                     self.running = False
         finally:
             time.sleep(1)

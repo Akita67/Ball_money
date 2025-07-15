@@ -8,6 +8,7 @@ class Ball:
         self.y = y
         self.vy = 0
         self.vx = random.uniform(BALL_INIT_VX_MIN, BALL_INIT_VX_MAX)
+        self.radius = BALL_RADIUS
 
     def update(self):
         # Apply gravity
@@ -16,16 +17,16 @@ class Ball:
         self.x += self.vx
 
     def draw(self, surface):
-        pygame.draw.circle(surface, BALL_COLOR, (int(self.x), int(self.y)), BALL_RADIUS)
+        pygame.draw.circle(surface, BALL_COLOR, (int(self.x), int(self.y)), self.radius)
 
     def off_screen(self, height):
-        return self.y - BALL_RADIUS > height
+        return self.y - self.radius > height
 
     def get_rect(self):
         # For collision detection
         return pygame.Rect(
-            int(self.x) - BALL_RADIUS,
-            int(self.y) - BALL_RADIUS,
-            BALL_RADIUS * 2,
-            BALL_RADIUS * 2
+            int(self.x) - self.radius,
+            int(self.y) - self.radius,
+            self.radius * 2,
+            self.radius * 2
         )
