@@ -21,36 +21,28 @@ BUCKET_SPEED = 3.5
 # Obstacle settings
 OBSTACLE_COLOR = (255, 255, 255)
 OBSTACLE_RADIUS = 3
-# Number of columns and rows of dots
 OBSTACLE_COLUMNS = 6
 OBSTACLE_ROWS = 6
-# Where the grid of obstacles starts
-OBSTACLE_OFFSET_X = 150
+OBSTACLE_OFFSET_X = 210
 OBSTACLE_OFFSET_Y = 140
-# Spacing between obstacle centers
 OBSTACLE_SPACING_X = 100
 OBSTACLE_SPACING_Y = 50
-
-# A list of colors for the halo effect
 HALO_COLORS = [
-    (255, 0, 0),    # Red
-    (0, 255, 0),    # Green
-    (0, 0, 255),    # Blue
-    (255, 255, 0),  # Yellow
-    (255, 0, 255),  # Magenta
-    (0, 255, 255),  # Cyan
-    (255, 165, 0),  # Orange
-    (128, 0, 128),  # Purple
+    (255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0),
+    (255, 0, 255), (0, 255, 255), (255, 165, 0), (128, 0, 128),
 ]
 
+# --- MODERN UI SETTINGS ---
+UI_BACKGROUND_COLOR = (14, 23, 33)
+UI_PANEL_COLOR = (22, 33, 48)
+UI_TEXT_COLOR = (150, 160, 170)
+UI_TEXT_BRIGHT_COLOR = (255, 255, 255)
+UI_ACCENT_COLOR = (1, 255, 128) # Bright Green
+UI_INPUT_BOX_COLOR = (42, 56, 76)
 
-# Info panel settings
-INFO_PANEL_WIDTH = 120
-INFO_PANEL_COLOR = (30, 30, 30)  # A slightly darker grey
-INFO_TEXT_COLOR = (200, 200, 200) # A bit softer than pure white
-INFO_FONT_SIZE = 20 # a smaller font size
-INFO_PANEL_BORDER_COLOR = (255, 215, 0)  # Gold color for the border
-INFO_PANEL_TITLE_COLOR = (255, 255, 255) # White for the title
+INFO_PANEL_WIDTH = 160 # Increased width for the new design
+INFO_FONT_SIZE = 16
+INFO_FONT_NAME = "Arial"
 
 
 # Frames per second

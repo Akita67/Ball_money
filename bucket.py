@@ -6,30 +6,29 @@ class Bucket:
         self.x = (SCREEN_WIDTH - BUCKET_WIDTH) / 2
         self.y = SCREEN_HEIGHT - BUCKET_HEIGHT - 10  # 10 px margin
         self.direction = 1  # 1 = moving right; -1 = moving left
+        self.wall_height = BUCKET_WIDTH / 2
+        self.wall_thickness = 4 # A bit thicker for better collision
 
     def update(self):
         # Move bucket
         self.x += BUCKET_SPEED * self.direction
 
         # Bounce off edges
-        if self.x <= 120:
-            self.x = 120
+        if self.x <= 160:
+            self.x = 160
             self.direction = 1
         elif self.x >= SCREEN_WIDTH - BUCKET_WIDTH:
             self.x = SCREEN_WIDTH - BUCKET_WIDTH
             self.direction = -1
 
     def draw(self, surface):
-        rect = pygame.Rect(self.x, self.y, BUCKET_WIDTH, BUCKET_HEIGHT)
-        pygame.draw.rect(surface, BUCKET_COLOR, rect)
-        wall_l = pygame.Rect(self.x, self.y - 13, BUCKET_HEIGHT, BUCKET_WIDTH/2)
-        pygame.draw.rect(surface, BUCKET_COLOR, wall_l)
-        wall_r = pygame.Rect(self.x + 30, self.y - 13, BUCKET_HEIGHT, BUCKET_WIDTH / 2)
-        pygame.draw.rect(surface, BUCKET_COLOR, wall_r)
+        # Draw the base of the bucket
+        base_rect = pygame.Rect(self.x, self.y, BUCKET_WIDTH, BUCKET_HEIGHT)
+        pygame.draw.rect(surface, BUCKET_COLOR, base_rect)
 
-        # 🔍 Draw outline of collision rectangle from get_rect()
-        debug_rect = self.get_rect()
-        pygame.draw.rect(surface, (255, 0, 0), debug_rect, 2)  # red border with thickness 2
+        # Draw the walls
+        for wall in self.get_wall_rects():
+            pygame.draw.rect(surface, BUCKET_COLOR, wall)
 
         # Draw the text "X100" above the bucket
         font = pygame.font.SysFont("Orbitron", 24)
@@ -39,14 +38,11 @@ class Bucket:
 
 
     def get_rect(self):
-        return pygame.Rect(self.x+7, self.y-2, BUCKET_WIDTH/2, BUCKET_HEIGHT)
+        # This is the area that collects the ball for scoring
+        return pygame.Rect(self.x + self.wall_thickness, self.y, BUCKET_WIDTH - (self.wall_thickness * 2), BUCKET_HEIGHT)
 
     def get_wall_rects(self):
-        wall_l = pygame.Rect(self.x-4, self.y - 18, BUCKET_HEIGHT, (BUCKET_WIDTH / 2) + 100)
-        wall_r = pygame.Rect(self.x + BUCKET_WIDTH - BUCKET_HEIGHT, self.y - 18, BUCKET_HEIGHT, (BUCKET_WIDTH / 2) + 100)
-        wall_l1 = pygame.Rect(self.x - 4, self.y - 10, BUCKET_HEIGHT, (BUCKET_WIDTH / 2) + 100)
-        wall_r1 = pygame.Rect(self.x + BUCKET_WIDTH - BUCKET_HEIGHT, self.y - 10, BUCKET_HEIGHT,(BUCKET_WIDTH / 2) + 100)
-        wall_l2 = pygame.Rect(self.x - 4, self.y - 2, BUCKET_HEIGHT, (BUCKET_WIDTH / 2) + 100)
-        wall_r2 = pygame.Rect(self.x + BUCKET_WIDTH - BUCKET_HEIGHT, self.y - 2, BUCKET_HEIGHT,(BUCKET_WIDTH / 2) + 100)
-        return [wall_l, wall_r,wall_l1,wall_r1,wall_l2,wall_r2]
-
+        # Define the two vertical walls of the bucket
+        left_wall = pygame.Rect(self.x, self.y - self.wall_height, self.wall_thickness, self.wall_height)
+        right_wall = pygame.Rect(self.x + BUCKET_WIDTH - self.wall_thickness, self.y - self.wall_height, self.wall_thickness, self.wall_height)
+        return [left_wall, right_wall]
