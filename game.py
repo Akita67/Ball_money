@@ -32,7 +32,7 @@ class Game:
         self.balls = []
         self.obstacles = Obstacles()
         self.info_panel = InfoPanel()
-        self.score = 1000  # Start with some score for testing
+        self.score = 10  # Start with some score for testing
         self.running = True
 
         # --- NEW: Lists to hold active visual effects ---
@@ -126,11 +126,18 @@ class Game:
             text.draw(self.screen)
 
         self.info_panel.update_info([
-            f"Balance: {self.score:.1f}",
-            f"Balls: {len(self.balls)}",
-            f"Time: {pygame.time.get_ticks() // 1000}s",
-            f"Ball Cost: {2.5}$",
-            f"Multiplier: X100"
+            "",
+            "",
+            "",
+            f"SOLD: {self.score:.1f}",
+            "",
+            f"BALLS: {len(self.balls)}",
+            "",
+            f"TIME: {pygame.time.get_ticks() // 1000}s",
+            "",
+            f"COST: {2.5}$",
+            "",
+            f"MULTI: 100"
         ])
         self.info_panel.draw(self.screen)
 

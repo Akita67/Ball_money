@@ -25,7 +25,7 @@ note_sounds = []
 for filename in os.listdir(NOTE_FOLDER):
     if filename.endswith(".wav") or filename.endswith(".ogg"):
         sound = pygame.mixer.Sound(os.path.join(NOTE_FOLDER, filename))
-        sound.set_volume(0.3)
+        sound.set_volume(0.7)
         note_sounds.append(sound)
 
 class Obstacles:
@@ -67,7 +67,7 @@ class Obstacles:
 
             # Draw halo if glowing using a transparent surface
             if now < obs["glow_until"]:
-                glow_radius = OBSTACLE_RADIUS + 6
+                glow_radius = OBSTACLE_RADIUS + 12
                 glow_surf = pygame.Surface((glow_radius * 2, glow_radius * 2), pygame.SRCALPHA)
                 pygame.draw.circle(glow_surf, (value, value1, value2, 200), (glow_radius, glow_radius), glow_radius)
                 surface.blit(glow_surf, (center[0] - glow_radius, center[1] - glow_radius))

@@ -42,7 +42,11 @@ class Bucket:
         return pygame.Rect(self.x+7, self.y-2, BUCKET_WIDTH/2, BUCKET_HEIGHT)
 
     def get_wall_rects(self):
-        wall_l = pygame.Rect(self.x-4, self.y - 18, BUCKET_HEIGHT, BUCKET_WIDTH / 2)
-        wall_r = pygame.Rect(self.x + BUCKET_WIDTH - BUCKET_HEIGHT, self.y - 18, BUCKET_HEIGHT, BUCKET_WIDTH / 2)
-        return [wall_l, wall_r]
+        wall_l = pygame.Rect(self.x-4, self.y - 18, BUCKET_HEIGHT, (BUCKET_WIDTH / 2) + 100)
+        wall_r = pygame.Rect(self.x + BUCKET_WIDTH - BUCKET_HEIGHT, self.y - 18, BUCKET_HEIGHT, (BUCKET_WIDTH / 2) + 100)
+        wall_l1 = pygame.Rect(self.x - 4, self.y - 10, BUCKET_HEIGHT, (BUCKET_WIDTH / 2) + 100)
+        wall_r1 = pygame.Rect(self.x + BUCKET_WIDTH - BUCKET_HEIGHT, self.y - 10, BUCKET_HEIGHT,(BUCKET_WIDTH / 2) + 100)
+        wall_l2 = pygame.Rect(self.x - 4, self.y - 2, BUCKET_HEIGHT, (BUCKET_WIDTH / 2) + 100)
+        wall_r2 = pygame.Rect(self.x + BUCKET_WIDTH - BUCKET_HEIGHT, self.y - 2, BUCKET_HEIGHT,(BUCKET_WIDTH / 2) + 100)
+        return [wall_l, wall_r,wall_l1,wall_r1,wall_l2,wall_r2]
 
