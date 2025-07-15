@@ -75,7 +75,7 @@ class Game:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
-            elif event.type == self.SPAWN_EVENT and self.score >= min_cost:
+            elif event.type == self.SPAWN_EVENT and self.score >= min_cost and pygame.time.get_ticks()//1000 < 61:
                 self.spawn_ball()
                 self.score -= min_cost
 
@@ -135,7 +135,7 @@ class Game:
             "",
             f"TIME: {pygame.time.get_ticks() // 1000}s",
             "",
-            f"COST: {2.8}$",
+            f"COST: {2.5}$",
             "",
             f"MULTI: 100"
         ])
@@ -152,7 +152,7 @@ class Game:
                 self.update(dt)
                 self.draw()
                 # Stop if score is too low OR if time is up
-                if (self.score <= 0 and not self.balls) or (pygame.time.get_ticks() // 1000 > 61):
+                if (self.score <= 0 and not self.balls) or (pygame.time.get_ticks() // 1000 > 61 and not self.balls):
                     self.running = False
         finally:
             time.sleep(1)
