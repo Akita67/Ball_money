@@ -1,5 +1,5 @@
 import pygame
-from settings import BUCKET_WIDTH, BUCKET_HEIGHT, BUCKET_COLOR, BUCKET_SPEED, SCREEN_WIDTH, SCREEN_HEIGHT
+from settings import BUCKET_WIDTH, BUCKET_HEIGHT, BUCKET_COLOR, BUCKET_SPEED, SCREEN_WIDTH, SCREEN_HEIGHT, MULTIPLIER, BALL_COST
 
 class Bucket:
     def __init__(self):
@@ -32,7 +32,7 @@ class Bucket:
 
         # Draw the text "X100" above the bucket
         font = pygame.font.SysFont("Orbitron", 24)
-        text_surface = font.render("X100", True, (255, 255, 255))  # white color
+        text_surface = font.render(f"X{MULTIPLIER*BALL_COST}", True, (255, 255, 255))  # white color
         text_rect = text_surface.get_rect(center=(self.x + BUCKET_WIDTH / 2, self.y - 30))
         surface.blit(text_surface, text_rect)
 

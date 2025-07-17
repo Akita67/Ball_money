@@ -4,7 +4,7 @@ import sys
 import random
 
 # Import settings and game components
-from settings import SCREEN_WIDTH, SCREEN_HEIGHT, BALL_RADIUS, SPAWN_INTERVAL, FPS, UI_BACKGROUND_COLOR
+from settings import SCREEN_WIDTH, SCREEN_HEIGHT, BALL_RADIUS, SPAWN_INTERVAL, FPS, UI_BACKGROUND_COLOR, BALL_COST, MULTIPLIER
 from ball import Ball
 from bucket import Bucket
 from obstacles import Obstacles
@@ -26,9 +26,9 @@ class Game:
         self.balls = []
         self.obstacles = Obstacles()
         self.info_panel = InfoPanel()
-        self.score = 10.0
-        self.cost_per_ball = 2.5
-        self.multiplier = 100
+        self.score = 14.0
+        self.cost_per_ball = BALL_COST
+        self.multiplier = MULTIPLIER
         self.running = True
 
         # Visual effects
@@ -55,13 +55,13 @@ class Game:
     def trigger_score_effect(self, x, y):
         for _ in range(random.randint(20, 30)):
             self.particles.append(Particle(x, y))
-        self.floating_texts.append(FloatingText(x, y, "+250", self.score_font))
+        self.floating_texts.append(FloatingText(x, y, f"+{MULTIPLIER*BALL_COST}", self.score_font))
 
     def handle_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
-            elif event.type == self.SPAWN_EVENT and self.score >= self.cost_per_ball:
+            elif event.type == self.SPAWN_EVENT and self.score >= self.cost_per_ball and pygame.time.get_ticks() // 1000 < 61:
                 self.spawn_ball()
                 self.score -= self.cost_per_ball
             elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -82,7 +82,7 @@ class Game:
             if ball.get_rect().colliderect(self.bucket.get_rect()):
                 self.trigger_score_effect(ball.x, ball.y)
                 self.balls.remove(ball)
-                self.score += 250
+                self.score += MULTIPLIER*BALL_COST
             elif ball.off_screen(SCREEN_HEIGHT):
                 self.balls.remove(ball)
 
@@ -122,7 +122,7 @@ class Game:
                 self.handle_events()
                 self.update(dt)
                 self.draw()
-                if (self.score <= 0 and not self.balls) or (pygame.time.get_ticks() // 1000 > 61):
+                if (self.score <= self.cost_per_ball and not self.balls) or (pygame.time.get_ticks() // 1000 > 61 and not self.balls):
                     self.running = False
         finally:
             time.sleep(1)

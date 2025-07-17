@@ -8,9 +8,10 @@ from settings import (
     UI_TEXT_COLOR,
     UI_TEXT_BRIGHT_COLOR,
     UI_INPUT_BOX_COLOR,
-    UI_ACCENT_COLOR, # Import the green accent color
+    UI_ACCENT_COLOR,  # Import the green accent color
     INFO_FONT_NAME,
-    INFO_FONT_SIZE
+    INFO_FONT_SIZE,
+    MULTIPLIER, BALL_COST
 )
 
 class InfoPanel:
@@ -26,7 +27,7 @@ class InfoPanel:
 
         # Helper to create the layout
         self.ui_elements = {}
-        self.add_ui_element("score", "SCORE", 50)
+        self.add_ui_element("score", "BALANCE", 50)
         self.add_ui_element("balls", "BALLS", 120)
         self.add_ui_element("time", "TIME", 190)
         self.add_ui_element("cost", "COST", 260)
@@ -65,7 +66,7 @@ class InfoPanel:
         self._draw_element(surface, self.ui_elements["balls"], balls)
         self._draw_element(surface, self.ui_elements["time"], f"{time}s")
         self._draw_element(surface, self.ui_elements["cost"], f"{cost:.1f}$")
-        self._draw_element(surface, self.ui_elements["multiplier"], "x100")
+        self._draw_element(surface, self.ui_elements["multiplier"], f"X{MULTIPLIER*BALL_COST}")
 
         # --- Draw Start Button ---
         pygame.draw.rect(surface, UI_ACCENT_COLOR, self.start_button_rect, border_radius=5)

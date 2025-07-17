@@ -3,6 +3,10 @@
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 
+# General Info
+BALL_COST = 3
+MULTIPLIER = 40
+
 # Ball settings
 BALL_RADIUS = 10
 BALL_COLOR = (220, 30, 30)
