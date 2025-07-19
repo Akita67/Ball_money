@@ -26,7 +26,7 @@ class Game:
         self.balls = []
         self.obstacles = Obstacles()
         self.info_panel = InfoPanel()
-        self.score = 14.0
+        self.score = 140.0
         self.cost_per_ball = BALL_COST
         self.multiplier = MULTIPLIER
         self.running = True
@@ -34,7 +34,7 @@ class Game:
         # Visual effects
         self.particles = []
         self.floating_texts = []
-        self.score_font = pygame.font.SysFont("Impact", 30)
+        self.score_font = pygame.font.SysFont("Impact", 60)
 
         # Timers
         self.SPAWN_EVENT = pygame.USEREVENT + 1
@@ -55,7 +55,7 @@ class Game:
     def trigger_score_effect(self, x, y):
         for _ in range(random.randint(20, 30)):
             self.particles.append(Particle(x, y))
-        self.floating_texts.append(FloatingText(x, y, f"+{MULTIPLIER*BALL_COST}", self.score_font))
+        self.floating_texts.append(FloatingText(x, y-40, f"+{MULTIPLIER*BALL_COST}", self.score_font))
 
     def handle_events(self):
         for event in pygame.event.get():
