@@ -20,9 +20,9 @@ class InfoPanel:
         self.height = SCREEN_HEIGHT
         self.x = 0
         self.y = 0
-        self.font_sm = pygame.font.SysFont(INFO_FONT_NAME, INFO_FONT_SIZE - 2)
+        self.font_sm = pygame.font.SysFont(INFO_FONT_NAME, INFO_FONT_SIZE - 3)
         self.font_md = pygame.font.SysFont(INFO_FONT_NAME, INFO_FONT_SIZE)
-        self.font_lg = pygame.font.SysFont(INFO_FONT_NAME, INFO_FONT_SIZE + 2, bold=True)
+        self.font_lg = pygame.font.SysFont(INFO_FONT_NAME, INFO_FONT_SIZE + 1, bold=True)
 
 
         # Helper to create the layout
@@ -49,7 +49,7 @@ class InfoPanel:
         surface.blit(label_surf, (element["rect"].x, element["rect"].y - 20))
 
         # Draw box
-        pygame.draw.rect(surface, UI_INPUT_BOX_COLOR, element["rect"], border_radius=5)
+        pygame.draw.rect(surface, UI_INPUT_BOX_COLOR, element["rect"], border_radius=4)
 
         # Draw value
         value_surf = self.font_md.render(str(value_text), True, UI_TEXT_BRIGHT_COLOR)
@@ -69,8 +69,8 @@ class InfoPanel:
         self._draw_element(surface, self.ui_elements["multiplier"], f"X{MULTIPLIER*BALL_COST}")
 
         # --- Draw Start Button ---
-        pygame.draw.rect(surface, UI_ACCENT_COLOR, self.start_button_rect, border_radius=5)
-        start_text_surf = self.font_lg.render("Start Autobet", True, (0, 0, 0)) # Black text
+        pygame.draw.rect(surface, UI_ACCENT_COLOR, self.start_button_rect, border_radius=4)
+        start_text_surf = self.font_lg.render("Autobet", True, (0, 0, 0)) # Black text
         start_text_rect = start_text_surf.get_rect(center=self.start_button_rect.center)
         surface.blit(start_text_surf, start_text_rect)
 

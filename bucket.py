@@ -14,8 +14,8 @@ class Bucket:
         self.x += BUCKET_SPEED * self.direction
 
         # Bounce off edges
-        if self.x <= 160:
-            self.x = 160
+        if self.x <= 100:
+            self.x = 100
             self.direction = 1
         elif self.x >= SCREEN_WIDTH - BUCKET_WIDTH:
             self.x = SCREEN_WIDTH - BUCKET_WIDTH

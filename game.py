@@ -26,7 +26,7 @@ class Game:
         self.balls = []
         self.obstacles = Obstacles()
         self.info_panel = InfoPanel()
-        self.score = 140.0
+        self.score = 14.0
         self.cost_per_ball = BALL_COST
         self.multiplier = MULTIPLIER
         self.running = True

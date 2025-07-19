@@ -33,8 +33,8 @@ if os.path.exists(NOTE_FOLDER):
 class Obstacles:
     def __init__(self):
         self.wall_thickness = 10
-        self.left_wall = pygame.Rect(150, 0, self.wall_thickness, SCREEN_HEIGHT)
-        self.right_wall = pygame.Rect(SCREEN_WIDTH - (self.wall_thickness + 40), 0, self.wall_thickness, SCREEN_HEIGHT)
+        self.left_wall = pygame.Rect(100, 0, self.wall_thickness, SCREEN_HEIGHT)
+        self.right_wall = pygame.Rect(SCREEN_WIDTH - (self.wall_thickness ), 0, self.wall_thickness, SCREEN_HEIGHT)
 
         self.peg_obstacles = []
         extra = 0
